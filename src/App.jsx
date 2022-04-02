@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Client } from "@notionhq/client";
 import "./App.css";
 import { SERVER_ADDR } from "./links";
 
@@ -9,15 +8,32 @@ function App() {
   const [content, setContent] = useState("");
 
   const submit = async () => {
-    const body = new URLSearchParams();
-    body.append("title", title);
-    body.append("author", name);
-    body.append("content", content);
+    try {
+      const body = new URLSearchParams();
+      body.append("title", title);
+      body.append("author", name);
+      body.append("content", content);
 
-    fetch(SERVER_ADDR, {
-      method: "POST",
-      body: body.toString(),
-    });
+      const response = await fetch(SERVER_ADDR, {
+        method: "POST",
+        body: body.toString(),
+      });
+      if (response.status === 200) {
+        setName("");
+        setTitle("");
+        setContent("");
+        window
+          .open(
+            "https://jryoo.notion.site/AI-2022-1-8f3dea50f3ac481d9653ba08011ce4e1",
+            "_blank"
+          )
+          .focus();
+      } else {
+        throw new Error();
+      }
+    } catch {
+      alert("오류가 발생했습니다.");
+    }
   };
 
   return (
@@ -26,7 +42,13 @@ function App() {
         <h1>튜터링 세션 질문</h1>
         <p>
           튜터링 자료 확인:{" "}
-          <a href="https://bit.ly/pythonai2022">https://bit.ly/pythonai2022</a>
+          <a
+            href="https://bit.ly/pythonai2022"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            https://bit.ly/pythonai2022
+          </a>
         </p>
         <div className="form-area">
           <div className="name">
