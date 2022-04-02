@@ -1,1 +1,1 @@
-export const SERVER_ADDR = "http://localhost:3050";
+export const SERVER_ADDR = "https://api.tutor.jungsub.com";
