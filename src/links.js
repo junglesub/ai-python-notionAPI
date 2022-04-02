@@ -1,1 +1,1 @@
-export const SERVER_ADDR = "https://api.tutor.jungsub.com";
+export const SERVER_ADDR = "https://apitutor.jungsub.com/";
