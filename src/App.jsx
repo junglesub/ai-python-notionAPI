@@ -1,45 +1,66 @@
-import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import { useState } from "react";
+import { Client } from "@notionhq/client";
+import "./App.css";
+import { SERVER_ADDR } from "./links";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [content, setContent] = useState("");
+
+  const submit = async () => {
+    const body = new URLSearchParams();
+    body.append("title", title);
+    body.append("author", name);
+    body.append("content", content);
+
+    fetch(SERVER_ADDR, {
+      method: "POST",
+      body: body.toString(),
+    });
+  };
 
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
+      <div className="content">
+        <h1>튜터링 세션 질문</h1>
         <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
+          튜터링 자료 확인:{" "}
+          <a href="https://bit.ly/pythonai2022">https://bit.ly/pythonai2022</a>
         </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
+        <div className="form-area">
+          <div className="name">
+            <b>이름: </b>
+            <input
+              placeholder="익명"
+              value={name}
+              onChange={(event) => setName(event.target.value)}
+            />
+          </div>
+          <div className="title">
+            <b>제목: </b>
+            <input
+              type="text"
+              value={title}
+              onChange={(event) => setTitle(event.target.value)}
+            />
+          </div>
+          <div className="question-content">
+            <textarea
+              name="question-content"
+              id="question-content"
+              rows="10"
+              value={content}
+              onChange={(event) => setContent(event.target.value)}
+            ></textarea>
+          </div>
+          <div className="confirm">
+            <button onClick={submit}>등록</button>
+          </div>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
